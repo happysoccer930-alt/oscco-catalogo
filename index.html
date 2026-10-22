@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OSCCO — Catálogo · Sala</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230a0a0a'/%3E%3Ccircle cx='32' cy='32' r='16' fill='none' stroke='%23fff' stroke-width='7'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#111111;
+    --cream:#f7f4ef;
+    --paper:#ffffff;
+    --line:#e4dfd6;
+    --muted:#8a847b;
+    --wa:#25d366;
+    --wa-dark:#1eb455;
+    --serif:"Cormorant Garamond", Georgia, "Times New Roman", serif;
+    --sans:"Inter", -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    font-family:var(--sans);
+    color:var(--ink);
+    background:var(--cream);
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  button{font-family:inherit;}
+  a{color:inherit;}
+
+  /* ---------- HEADER ---------- */
+  .topbar{
+    background:#0a0a0a;
+    height:96px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 clamp(18px, 5vw, 52px);
+    gap:24px;
+  }
+  .logo{display:flex;align-items:center;text-decoration:none;line-height:0;}
+  .logo svg{height:46px;width:auto;display:block;}
+  .top-icons{display:flex;align-items:center;gap:clamp(16px,2.6vw,30px);}
+  .icon-btn{
+    background:none;border:0;padding:4px;cursor:pointer;color:#f2f2f2;
+    display:grid;place-items:center;border-radius:50%;
+    transition:opacity .2s, transform .2s;
+  }
+  .icon-btn:hover{opacity:.65;transform:translateY(-1px);}
+  .icon-btn svg{width:21px;height:21px;display:block;}
+
+  /* ---------- SUBNAV ---------- */
+  .subnav{
+    background:#fff;
+    border-bottom:1px solid var(--line);
+    min-height:66px;
+    display:grid;
+    grid-template-columns:auto 1fr auto;
+    align-items:center;
+    gap:18px;
+    padding:10px clamp(18px, 4vw, 44px);
+    position:sticky;top:0;z-index:40;
+    box-shadow:0 1px 0 rgba(0,0,0,.02);
+  }
+  .subnav-left{display:flex;align-items:center;gap:10px;position:relative;}
+  .menu-btn{background:none;border:0;padding:6px;cursor:pointer;color:#2b2b2b;display:grid;place-items:center;}
+  .pill{
+    background:#fff;border:1px solid #d5cfc5;border-radius:3px;
+    padding:9px 15px;font-size:12px;color:#3a3a3a;cursor:pointer;
+    letter-spacing:.02em;transition:border-color .2s, background .2s;
+  }
+  .pill:hover{border-color:#111;background:#faf8f5;}
+  .subnav-search{background:none;border:0;padding:6px;cursor:pointer;color:#3a3a3a;display:grid;place-items:center;}
+  .cats{
+    display:flex;align-items:center;justify-content:center;
+    gap:clamp(8px,1.4vw,15px);
+    list-style:none;margin:0;padding:0;
+  }
+  .cats li{display:flex;align-items:center;gap:clamp(8px,1.4vw,15px);}
+  .cats .dot{color:#8d877c;font-size:10px;line-height:1;}
+  .cat-btn{
+    background:none;border:0;padding:8px 2px;cursor:pointer;
+    font-family:var(--serif);font-size:clamp(15px,1.45vw,20px);font-weight:600;
+    letter-spacing:.12em;text-transform:uppercase;color:#1a1a1a;
+    position:relative;transition:opacity .2s;
+  }
+  .cat-btn::after{
+    content:"";position:absolute;left:0;right:0;bottom:2px;height:1px;
+    background:#111;transform:scaleX(0);transform-origin:left;transition:transform .25s;
+  }
+  .cat-btn:hover::after,.cat-btn.active::after{transform:scaleX(1);}
+  .subnav-right{display:flex;justify-content:flex-end;}
+  .subnav-right .pill{display:none;}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;
+    min-height:clamp(470px, 48vw, 640px);
+    display:flex;align-items:center;
+    padding:clamp(30px,4vw,60px) clamp(20px, 5vw, 64px);
+    overflow:hidden;
+    background:#f2ece2 url("img/hero-sala.jpg") center center / cover no-repeat;
+  }
+  .hero::before{
+    content:"";position:absolute;inset:0;pointer-events:none;z-index:1;
+    background:
+      linear-gradient(90deg, rgba(247,244,239,.95) 0%, rgba(247,244,239,.88) 26%, rgba(247,244,239,.6) 42%, rgba(247,244,239,.12) 60%, rgba(247,244,239,0) 74%),
+      linear-gradient(180deg, rgba(30,22,14,.06) 0%, rgba(30,22,14,0) 30%, rgba(30,22,14,.14) 100%);
+  }
+  .hero-copy{position:relative;z-index:3;max-width:620px;}
+  .eyebrow{
+    font-family:var(--serif);font-size:clamp(17px,1.6vw,22px);
+    letter-spacing:.28em;text-transform:uppercase;margin:0 0 6px;
+  }
+  .hero h1{
+    margin:0;
+    font-family:var(--serif);font-weight:500;
+    font-size:clamp(40px, 4.9vw, 76px);
+    line-height:1;letter-spacing:-.005em;text-transform:uppercase;
+    white-space:nowrap;
+  }
+  .hero-sub{
+    margin:16px 0 26px;font-size:clamp(14px,1.25vw,18px);line-height:1.55;
+    color:#3c362f;max-width:420px;
+  }
+  .btn-dark{
+    display:inline-flex;align-items:center;gap:10px;
+    background:#111;color:#fff;border:1px solid #111;border-radius:3px;
+    padding:15px 26px;font-size:11.5px;font-weight:600;letter-spacing:.14em;
+    text-transform:uppercase;text-decoration:none;cursor:pointer;
+    transition:background .22s,color .22s,transform .22s;
+  }
+  .btn-dark:hover{background:transparent;color:#111;transform:translateY(-1px);}
+  .hero-caption{
+    position:absolute;right:clamp(16px,3vw,38px);bottom:18px;z-index:3;
+    margin:0;padding:8px 12px;border-radius:3px;
+    background:rgba(12,12,12,.62);backdrop-filter:blur(3px);
+    color:#f6f2ea;font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;
+  }
+
+  /* ---------- CATALOG ---------- */
+  .catalog{background:var(--cream);padding:clamp(26px,3vw,40px) 0 0;}
+  .catalog-kicker{
+    text-align:center;font-size:clamp(11px,1vw,13px);letter-spacing:.1em;
+    text-transform:uppercase;color:#1e1e1e;margin:0;
+  }
+  .catalog h2{
+    font-family:var(--serif);font-weight:500;text-transform:uppercase;
+    text-align:center;font-size:clamp(30px,3.6vw,46px);letter-spacing:.09em;
+    margin:4px 0 clamp(22px,3vw,36px);
+  }
+  .grid{
+    max-width:1440px;margin:0 auto;padding:0 clamp(16px,3.2vw,44px);
+    display:grid;grid-template-columns:repeat(5,1fr);
+    gap:clamp(12px,1.6vw,22px);
+  }
+  .card{
+    background:var(--paper);position:relative;min-width:0;
+    transition:transform .3s cubic-bezier(.2,.7,.3,1), box-shadow .3s;
+    display:flex;flex-direction:column;
+  }
+  .card:hover{transform:translateY(-5px);box-shadow:0 18px 34px rgba(45,35,20,.10);}
+  .card-media{
+    position:relative;aspect-ratio:1/1;overflow:hidden;
+    background:#fff;
+    display:grid;place-items:center;
+  }
+  .card-media img{transition:transform .45s cubic-bezier(.2,.7,.3,1);}
+  .card--sala .card-media img{object-fit:contain;}
+  .card:hover .card-media img{transform:scale(1.04);}
+  .card-wa{
+    position:absolute;left:50%;bottom:12px;transform:translate(-50%,10px);
+    display:inline-flex;align-items:center;gap:7px;
+    background:#111;color:#fff;text-decoration:none;
+    font-size:10.5px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;
+    padding:9px 14px;border-radius:3px;white-space:nowrap;
+    opacity:0;transition:opacity .25s, transform .25s, background .2s;
+    z-index:2;
+  }
+  .card-wa svg{width:14px;height:14px;flex:0 0 auto;}
+  .card:hover .card-wa,.card:focus-within .card-wa{opacity:1;transform:translate(-50%,0);}
+  .card-wa:hover{background:var(--wa-dark);}
+  .card-body{padding:16px 10px 22px;text-align:center;}
+  .card-name{margin:0;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;}
+  .card-color{margin:5px 0 0;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);}
+  .card-price{margin:9px 0 0;font-size:15px;font-weight:700;letter-spacing:.01em;}
+  .card-ship{margin:6px 0 0;font-size:9.5px;font-weight:600;letter-spacing:.03em;color:#2f6b45;}
+  .card-stats{
+    margin:8px 0 0;font-size:10px;letter-spacing:.04em;color:var(--muted);
+    display:flex;align-items:center;justify-content:center;gap:9px;flex-wrap:wrap;
+  }
+  .card-stats span{display:inline-flex;align-items:center;gap:4px;}
+  .card-stats svg{width:11px;height:11px;}
+  .card-badge{
+    position:absolute;top:10px;left:10px;z-index:2;
+    background:#111;color:#fff;font-size:9px;font-weight:700;letter-spacing:.14em;
+    text-transform:uppercase;padding:5px 8px;border-radius:2px;
+  }
+  .card-like{
+    position:absolute;top:8px;right:8px;z-index:3;
+    display:inline-flex;align-items:center;gap:5px;
+    background:rgba(255,255,255,.92);border:1px solid rgba(0,0,0,.06);
+    border-radius:999px;padding:5px 9px;cursor:pointer;
+    font-size:10px;font-weight:600;color:#3a352e;
+    transition:background .2s,color .2s,transform .2s;
+  }
+  .card-like svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:1.9;}
+  .card-like:hover{transform:translateY(-1px);background:#fff;}
+  .card-like.is-liked{background:#111;color:#fff;border-color:#111;}
+  .card-like.is-liked svg{fill:#ff5b7f;stroke:#ff5b7f;}
+
+  /* ---------- ORDENAR / FILTRAR ---------- */
+  .pill.tool-btn{font-size:11.5px;letter-spacing:.06em;padding:9px 13px;white-space:nowrap;}
+  .pill.tool-btn:hover{border-color:#111;background:#faf8f5;color:#111;}
+  .pill.tool-btn.is-open{background:#111;border-color:#111;color:#fff;}
+  .tool-panel{
+    position:absolute;top:calc(100% + 14px);left:44px;z-index:60;
+    width:252px;background:#fff;border:1px solid var(--line);
+    box-shadow:0 24px 50px rgba(30,22,10,.16);
+    padding:9px;border-radius:3px;text-align:left;
+  }
+  .tool-panel[hidden]{display:none;}
+  .tool-title{
+    margin:7px 8px 5px;font-size:9.5px;font-weight:600;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--muted);
+  }
+  .tool-opt{
+    display:flex;align-items:center;justify-content:space-between;gap:8px;
+    width:100%;background:none;border:0;border-radius:2px;
+    padding:9px 10px;font-family:inherit;font-size:12.5px;color:#2a2a2a;
+    text-align:left;cursor:pointer;transition:background .15s,color .15s;
+  }
+  .tool-opt:hover{background:#f6f2ea;}
+  .tool-opt.is-active{background:#111;color:#fff;}
+  .tool-opt.is-active::after{content:"✓";font-size:11px;opacity:.9;}
+  .tool-clear{
+    width:100%;margin-top:8px;background:none;border:1px solid #ddd6ca;
+    border-radius:2px;padding:9px;font-family:inherit;font-size:10px;
+    font-weight:600;letter-spacing:.12em;text-transform:uppercase;
+    color:#3a3a3a;cursor:pointer;transition:background .2s,border-color .2s;
+  }
+  .tool-clear:hover{border-color:#111;background:#faf8f5;}
+
+  /* ---------- SEARCH / NO-ACCOUNT ---------- */
+  .searchbox{
+    display:flex;align-items:center;gap:8px;background:#faf8f5;
+    border:1px solid #ddd7cd;border-radius:3px;padding:7px 10px;
+    width:180px;min-width:180px;transition:border-color .2s,background .2s;
+  }
+  .searchbox:focus-within{border-color:#111;background:#fff;}
+  .searchbox svg{width:15px;height:15px;flex:0 0 auto;color:#6d675e;}
+  .searchbox input{
+    border:0;background:none;outline:none;width:100%;min-width:0;
+    font-family:inherit;font-size:12px;color:#1e1e1e;
+  }
+  .searchbox input::placeholder{color:#9a9389;}
+  .reg-chip{
+    display:inline-flex;align-items:center;gap:6px;white-space:nowrap;
+    font-size:10px;letter-spacing:.1em;text-transform:uppercase;
+    color:#4c463d;background:#f2ede4;border:1px solid #e0d8cb;
+    border-radius:999px;padding:7px 12px;
+  }
+  .reg-chip svg{width:12px;height:12px;}
+  .empty-hint{color:var(--muted);font-size:13.5px;margin:0 0 18px;}
+  .empty{
+    grid-column:1/-1;text-align:center;padding:clamp(40px,6vw,70px) 20px;
+    border:1px dashed #d7d0c4;background:rgba(255,255,255,.5);
+  }
+  .empty h3{font-family:var(--serif);font-size:26px;font-weight:500;margin:0 0 8px;text-transform:uppercase;letter-spacing:.06em;}
+  .empty p{margin:0 0 20px;color:var(--muted);font-size:14px;}
+  .trustbar{
+    margin-top:clamp(28px,3vw,44px);
+    border-top:1px solid var(--line);
+    padding:18px 20px;
+    text-align:center;font-size:clamp(11px,1.05vw,13.5px);
+    letter-spacing:.02em;color:#262626;background:var(--cream);
+  }
+  .trustbar span{display:inline-block;}
+  .trustbar .sep{margin:0 10px;color:#a8a094;}
+
+  /* ---------- FOOTER ---------- */
+  .footer{background:#0a0a0a;color:#e9e6e0;padding:clamp(40px,5vw,64px) clamp(20px,5vw,60px) 26px;}
+  .footer-grid{
+    max-width:1200px;margin:0 auto;display:grid;
+    grid-template-columns:1.3fr 1fr 1.2fr;gap:clamp(26px,4vw,60px);
+  }
+  .footer-logo svg{height:38px;width:auto;display:block;margin-bottom:16px;}
+  .footer p{font-size:13px;line-height:1.7;color:#a9a49b;margin:0 0 8px;max-width:320px;}
+  .footer h4{
+    font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#fff;
+    margin:0 0 14px;font-weight:600;
+  }
+  .footer a{color:#cfcac1;text-decoration:none;font-size:13px;line-height:2;}
+  .footer a:hover{color:#fff;}
+  .footer-links{display:flex;flex-direction:column;}
+  .footer-wa{
+    display:inline-flex;align-items:center;gap:10px;background:var(--wa);color:#062b13 !important;
+    border-radius:3px;padding:12px 18px;font-size:12px;font-weight:700;
+    letter-spacing:.06em;text-transform:uppercase;margin-top:6px;
+    transition:background .2s, transform .2s;
+  }
+  .footer-wa:hover{background:#2ee574;transform:translateY(-1px);color:#062b13 !important;}
+  .footer-wa svg{width:17px;height:17px;}
+  .footer-bottom{
+    max-width:1200px;margin:clamp(28px,4vw,44px) auto 0;
+    border-top:1px solid #232323;padding-top:18px;
+    display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;
+    font-size:11px;letter-spacing:.04em;color:#77726a;
+  }
+
+  /* ---------- FLOATING WHATSAPP ---------- */
+  .wa-float{
+    position:fixed;right:22px;bottom:22px;z-index:80;
+    width:58px;height:58px;border-radius:50%;
+    background:var(--wa);color:#fff;display:grid;place-items:center;
+    box-shadow:0 10px 24px rgba(0,0,0,.22);
+    text-decoration:none;transition:transform .22s, background .22s, opacity .2s, visibility .2s;
+  }
+  .panel-open .wa-float{opacity:0;visibility:hidden;pointer-events:none;z-index:30;}
+  .wa-float svg{width:30px;height:30px;}
+  .wa-float:hover{transform:scale(1.06);background:#2ee574;}
+  .wa-float::after{
+    content:"";position:absolute;inset:0;border-radius:50%;
+    border:2px solid var(--wa);animation:waPulse 2.4s ease-out infinite;
+  }
+  .wa-float .wa-tip{
+    position:absolute;right:70px;top:50%;transform:translateY(-50%) translateX(6px);
+    background:#111;color:#fff;font-size:11.5px;letter-spacing:.04em;font-weight:500;
+    padding:8px 12px;border-radius:3px;white-space:nowrap;
+    opacity:0;pointer-events:none;transition:opacity .2s, transform .2s;
+  }
+  .wa-float:hover .wa-tip{opacity:1;transform:translateY(-50%) translateX(0);}
+  @keyframes waPulse{
+    0%{transform:scale(1);opacity:.65;}
+    70%{transform:scale(1.55);opacity:0;}
+    100%{transform:scale(1.55);opacity:0;}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .wa-float::after{animation:none;}
+    html{scroll-behavior:auto;}
+  }
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (min-width:1251px) and (max-width:1450px){
+    .cats{
+      min-width:0;max-width:100%;overflow-x:auto;flex-wrap:nowrap;
+      scrollbar-width:none;
+    }
+    .cats::-webkit-scrollbar{display:none;}
+    .cats li{flex:0 0 auto;}
+  }
+  @media (max-width:1250px){
+    .subnav-right{display:none;}
+    .cats{
+      justify-content:flex-start;min-width:0;max-width:100%;
+      overflow-x:auto;flex-wrap:nowrap;padding:2px;gap:10px;
+      scrollbar-width:none;
+    }
+    .cats::-webkit-scrollbar{display:none;}
+    .cats li{flex:0 0 auto;gap:10px;}
+    .cat-btn{font-size:clamp(13px,1.4vw,17px);letter-spacing:.09em;}
+  }
+  @media (max-width:1100px){
+    .grid{grid-template-columns:repeat(3,1fr);}
+    .subnav{grid-template-columns:auto 1fr auto;padding-left:16px;padding-right:16px;}
+    .subnav-right .pill{display:none;}
+    .menu-btn{display:none;}
+    .pill.tool-btn{padding:8px 11px;font-size:11px;}
+    .searchbox{min-width:140px;}
+    .tool-panel{left:0;}
+  }
+  @media (max-width:860px){
+    .topbar{height:74px;}
+    .logo svg{height:34px;}
+    .hero{
+      min-height:clamp(540px, 132vw, 660px);
+      flex-direction:column;align-items:flex-start;
+      padding-bottom:34px;
+      background-image:url("img/hero-sala.jpg");
+      background-position:center center;
+      background-size:cover;
+    }
+    .hero::before{
+      background:linear-gradient(180deg, rgba(247,244,239,.97) 0%, rgba(247,244,239,.93) 30%, rgba(247,244,239,.55) 48%, rgba(247,244,239,.04) 66%);
+    }
+    .hero h1{white-space:normal;font-size:clamp(38px, 8.6vw, 56px);}
+    .hero-caption{display:none;}
+    .subnav{grid-template-columns:1fr;overflow:visible;gap:8px;}
+    .subnav-left{display:flex;gap:7px;min-width:0;}
+    .menu-btn{display:none;}
+    .subnav-right{display:none;}
+    .pill.tool-btn{padding:9px 11px;font-size:10.5px;letter-spacing:.04em;}
+    .searchbox{flex:1;min-width:0;}
+    .tool-panel{
+      position:fixed;left:0;right:0;bottom:0;top:auto;width:auto;
+      max-height:76vh;overflow-y:auto;overscroll-behavior:contain;
+      border-radius:14px 14px 0 0;border-bottom:0;
+      padding:10px 14px calc(18px + env(safe-area-inset-bottom));
+      box-shadow:0 -22px 60px rgba(0,0,0,.28);
+    }
+    .tool-panel::before{
+      content:"";display:block;width:36px;height:4px;border-radius:99px;
+      background:#ddd6ca;margin:2px auto 8px;
+    }
+    .tool-opt{padding:12px 10px;font-size:13.5px;}
+    .tool-title{margin:10px 8px 4px;}
+    .cats{
+      justify-content:flex-start;min-width:0;max-width:100%;
+      overflow-x:auto;flex-wrap:nowrap;padding:2px;
+      scrollbar-width:none;
+    }
+    .cats::-webkit-scrollbar{display:none;}
+    .cats li{flex:0 0 auto;}
+    .catalog h2{letter-spacing:.06em;}
+  }
+  @media (max-width:640px){
+    .grid{grid-template-columns:repeat(2,1fr);gap:10px;padding:0 12px;}
+    .card-body{padding:12px 6px 18px;}
+    .card-name{font-size:10.5px;letter-spacing:.06em;}
+    .card-color{font-size:9.5px;}
+    .card-price{font-size:13.5px;}
+    .card-ship{font-size:8.5px;}
+    .card-wa{opacity:1;transform:translate(-50%,0);font-size:9px;padding:7px 10px;bottom:8px;}
+    .footer-grid{grid-template-columns:1fr;gap:24px;}
+    .trustbar{font-size:11px;line-height:1.9;}
+    .wa-float{width:54px;height:54px;right:16px;bottom:16px;}
+    .wa-float .wa-tip{display:none;}
+  }
+  @media (hover:none){
+    .card-wa{opacity:1;transform:translate(-50%,0);}
+  }
+</style>
+</head>
+<body>
+
+<!-- ================= HEADER ================= -->
+<header class="topbar">
+  <a class="logo" href="#" aria-label="OSCCO inicio">
+    <svg viewBox="0 0 600 120" fill="none" role="img" aria-label="OSCCO">
+      <g stroke="#fff" stroke-width="17" stroke-linejoin="round" stroke-linecap="round">
+        <rect x="11" y="11" width="98" height="98" rx="26"/>
+        <path d="M228 16 H158 Q137 16 137 37 V41 Q137 59 158 59 H207 Q228 59 228 79 V84 Q228 105 207 105 H137"/>
+        <path d="M348 40 V27 Q348 14 333 14 H283 Q259 14 259 38 V82 Q259 106 283 106 H333 Q348 106 348 93 V80"/>
+        <path d="M470 40 V27 Q470 14 455 14 H405 Q381 14 381 38 V82 Q381 106 405 106 H455 Q470 106 470 93 V80"/>
+        <rect x="491" y="11" width="98" height="98" rx="26"/>
+      </g>
+    </svg>
+  </a>
+  <div class="top-icons">
+    <button class="icon-btn" aria-label="Buscar en el catálogo" data-search>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m15.5 15.5 5 5"/></svg>
+    </button>
+    <button class="icon-btn" id="favBtn" aria-label="Ver mis me gusta" aria-pressed="false" title="Mis me gusta">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M12 20s-7.4-4.6-9-9.1C2 7.6 4.1 4.8 7.1 4.8c1.9 0 3.4 1 4.9 2.8 1.5-1.8 3-2.8 4.9-2.8 3 0 5.1 2.8 4.1 6.1-1.6 4.5-9 9.1-9 9.1Z"/></svg>
+    </button>
+  </div>
+</header>
+
+<!-- ================= SUBNAV ================= -->
+<nav class="subnav" aria-label="Categorías">
+  <div class="subnav-left">
+    <button class="menu-btn" aria-label="Menú">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3 7h18M3 12h18M3 17h18"/></svg>
+    </button>
+    <button class="pill tool-btn" id="btnOrdenar" aria-expanded="false" aria-haspopup="true" aria-controls="panelOrdenar">Ordenar</button>
+    <button class="pill tool-btn" id="btnFiltrar" aria-expanded="false" aria-haspopup="true" aria-controls="panelFiltrar">Filtrar</button>
+    <label class="searchbox" for="q">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m15.5 15.5 5 5"/></svg>
+      <input id="q" type="search" placeholder="Buscar en el catálogo" autocomplete="off" aria-label="Buscar en el catálogo">
+    </label>
+
+    <div class="tool-panel" id="panelOrdenar" hidden>
+      <p class="tool-title">Ordenar por</p>
+      <button class="tool-opt is-active" data-sort="vistas">Más vistos</button>
+      <button class="tool-opt" data-sort="likes">Más gustados</button>
+      <button class="tool-opt" data-sort="precio-asc">Precio: menor a mayor</button>
+      <button class="tool-opt" data-sort="precio-desc">Precio: mayor a menor</button>
+    </div>
+
+    <div class="tool-panel" id="panelFiltrar" hidden>
+      <p class="tool-title">Categoría</p>
+      <button class="tool-opt is-active" data-fcat="">Todas</button>
+      <button class="tool-opt" data-fcat="SALA">Sala</button>
+      <button class="tool-opt" data-fcat="BUTACA">Butaca</button>
+      <button class="tool-opt" data-fcat="COJINES">Cojines</button>
+      <button class="tool-opt" data-fcat="MESA">Mesa</button>
+      <button class="tool-opt" data-fcat="COMEDOR">Comedor</button>
+      <button class="tool-opt" data-fcat="DORMITORIO">Dormitorio</button>
+      <p class="tool-title">Precio</p>
+      <button class="tool-opt is-active" data-fprecio="todos">Todos los precios</button>
+      <button class="tool-opt" data-fprecio="bajo">Hasta S/ 2,000</button>
+      <button class="tool-opt" data-fprecio="medio">S/ 2,000 a S/ 3,500</button>
+      <button class="tool-opt" data-fprecio="alto">Más de S/ 3,500</button>
+      <button class="tool-clear" id="limpiarFiltros">Limpiar filtros</button>
+    </div>
+  </div>
+  <ul class="cats" id="cats"></ul>
+  <div class="subnav-right">
+    <span class="reg-chip">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 4.5 4.5L19 7"/></svg>
+      Sin registro
+    </span>
+  </div>
+</nav>
+
+<!-- ================= HERO ================= -->
+<section class="hero">
+  <div class="hero-copy">
+    <p class="eyebrow">OSCCO · <span data-anio>2026</span></p>
+    <h1>Colección <span data-anio>2026</span></h1>
+    <p class="hero-sub">Diseño de muebles para sala. Volúmenes orgánicos en tela y cuero, pensados para vivir sin prisa.</p>
+    <a class="btn-dark" href="#catalogo">Ver los más vistos</a>
+  </div>
+  <p class="hero-caption">Sala Nube · Negro</p>
+</section>
+
+<!-- ================= CATALOG ================= -->
+<main class="catalog" id="catalogo">
+  <p class="catalog-kicker">Catálogo <span data-anio>2026</span> — Diseño de muebles para sala</p>
+  <h2 id="catalogTitle">Más vistos</h2>
+  <div class="grid" id="grid"></div>
+  <div class="trustbar">
+    <span>No necesitas crear una cuenta</span><span class="sep">•</span>
+    <span>No se realizan pedidos en la web</span><span class="sep">•</span>
+    <span>Los pedidos se coordinan por WhatsApp</span>
+  </div>
+</main>
+
+<!-- ================= FOOTER ================= -->
+<footer class="footer">
+  <div class="footer-grid">
+    <div>
+      <div class="footer-logo">
+        <svg viewBox="0 0 600 120" fill="none" aria-label="OSCCO">
+          <g stroke="#fff" stroke-width="17" stroke-linejoin="round" stroke-linecap="round">
+            <rect x="11" y="11" width="98" height="98" rx="26"/>
+            <path d="M228 16 H158 Q137 16 137 37 V41 Q137 59 158 59 H207 Q228 59 228 79 V84 Q228 105 207 105 H137"/>
+            <path d="M348 32 V27 Q348 14 333 14 H283 Q259 14 259 38 V82 Q259 106 283 106 H333 Q348 106 348 93 V88"/>
+            <path d="M470 32 V27 Q470 14 455 14 H405 Q381 14 381 38 V82 Q381 106 405 106 H455 Q470 106 470 93 V88"/>
+            <rect x="491" y="11" width="98" height="98" rx="26"/>
+          </g>
+        </svg>
+      </div>
+      <p>Muebles escultóricos de diseño atemporal. Piezas pensadas para durar, fabricadas con materiales sostenibles.</p>
+    </div>
+    <div>
+      <h4>Catálogo</h4>
+      <div class="footer-links">
+        <a href="#catalogo" data-footer-cat="SALA">Sala</a>
+        <a href="#catalogo" data-footer-cat="BUTACA">Butacas</a>
+        <a href="#catalogo" data-footer-cat="COJINES">Cojines</a>
+        <a href="#catalogo" data-footer-cat="MESA">Mesas</a>
+        <a href="#catalogo" data-footer-cat="COMEDOR">Comedor</a>
+        <a href="#catalogo" data-footer-cat="DORMITORIO">Dormitorio</a>
+      </div>
+    </div>
+    <div>
+      <h4>Atención al cliente</h4>
+      <p>Lun a Sáb · 9:00 a 19:00<br>Pedidos y consultas por WhatsApp. No se realizan pedidos en la web.</p>
+      <a class="footer-wa" href="#" data-wa-general>
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.6 2 2.2 6.4 2.2 11.84c0 1.74.46 3.44 1.32 4.94L2 22l5.36-1.4a9.86 9.86 0 0 0 4.68 1.19h.01c5.43 0 9.84-4.4 9.84-9.84C21.89 6.4 17.48 2 12.04 2Zm5.75 13.9c-.24.68-1.42 1.3-1.96 1.35-.54.05-1.05.24-2.94-.6-2.29-1.02-3.74-3.44-3.85-3.6-.11-.16-.92-1.23-.92-2.35 0-1.12.58-1.67.79-1.9.2-.23.44-.29.59-.29h.42c.14 0 .32-.05.5.38.19.45.65 1.58.71 1.7.06.11.1.25.02.4-.08.16-.12.26-.24.4-.12.14-.25.3-.36.42-.12.12-.24.25-.1.49.13.23.6.99 1.29 1.6.88.79 1.62 1.03 1.85 1.15.23.12.37.1.5-.06.14-.16.6-.7.76-.94.16-.24.32-.2.54-.12.22.08 1.4.66 1.64.78.24.12.4.18.46.28.06.1.06.58-.18 1.26Z"/></svg>
+        Pedir por WhatsApp
+      </a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© <span data-anio>2026</span> OSCCO. Todos los derechos reservados.</span>
+    <span>Lima, Perú · Envíos a todo el país · Pedidos por WhatsApp</span>
+  </div>
+</footer>
+
+<!-- ================= FLOATING WHATSAPP ================= -->
+<a class="wa-float" id="waFloat" href="#" target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp">
+  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.6 2 2.2 6.4 2.2 11.84c0 1.74.46 3.44 1.32 4.94L2 22l5.36-1.4a9.86 9.86 0 0 0 4.68 1.19h.01c5.43 0 9.84-4.4 9.84-9.84C21.89 6.4 17.48 2 12.04 2Zm5.75 13.9c-.24.68-1.42 1.3-1.96 1.35-.54.05-1.05.24-2.94-.6-2.29-1.02-3.74-3.44-3.85-3.6-.11-.16-.92-1.23-.92-2.35 0-1.12.58-1.67.79-1.9.2-.23.44-.29.59-.29h.42c.14 0 .32-.05.5.38.19.45.65 1.58.71 1.7.06.11.1.25.02.4-.08.16-.12.26-.24.4-.12.14-.25.3-.36.42-.12.12-.24.25-.1.49.13.23.6.99 1.29 1.6.88.79 1.62 1.03 1.85 1.15.23.12.37.1.5-.06.14-.16.6-.7.76-.94.16-.24.32-.2.54-.12.22.08 1.4.66 1.64.78.24.12.4.18.46.28.06.1.06.58-.18 1.26Z"/></svg>
+  <span class="wa-tip">Pedir por WhatsApp</span>
+</a>
+
+<script>
+/* ============================================================
+   ⚙️  CONFIGURACIÓN — CAMBIA AQUÍ EL NÚMERO DEL VENDEDOR
+   Formato: código de país + número, SIN "+", SIN espacios.
+   Perú: 51 + 9 dígitos  →  "51+ 918 582 558"
+   ============================================================ */
+const NUMERO_WHATSAPP = "51918582558";   // WhatsApp del vendedor
+const NOMBRE_VENDEDOR = "OSCCO";
+const ANIO = String(new Date().getFullYear());   // cambia automáticamente cada año
+
+/* Pinta el año actual en todos los textos marcados con data-anio */
+document.querySelectorAll("[data-anio]").forEach(el => { el.textContent = ANIO; });
+document.title = "OSCCO — Catálogo " + ANIO + " · Sala";
+
+/* Abre SIEMPRE un chat nuevo con el mensaje ya escrito.
+   wa.me funciona en web y en la app de WhatsApp. */
+function waLink(mensaje){
+  return "https://wa.me/" + NUMERO_WHATSAPP + "?text=" + encodeURIComponent(mensaje);
+}
+const MSG_GENERAL = "¡Hola " + NOMBRE_VENDEDOR + "! 👋 Vi el catálogo " + ANIO + " de muebles de sala y quiero hacer un pedido. ¿Me ayudan por este chat?";
+
+/* ============================================================
+   CATEGORÍAS
+   ============================================================ */
+const CATEGORIAS = ["SALA", "BUTACA", "COJINES", "MESA", "COMEDOR", "DORMITORIO"];
+
+/* ============================================================
+   PRODUCTOS — edita nombre, color, precio y foto
+   vista / likes: contadores iniciales del catálogo
+   foto: ruta de la imagen real (carpeta img/).
+   ============================================================ */
+const PRODUCTOS = [
+  { id:"sofa-nube-negro", nombre:"Sofá Manhattan 3", color:"Negro", precio:1800, cat:"SALA", // Precio: S/ 3,690
+    foto:"img/sala-17.jpg", nuevo:true, vistas:8900, likes:636 },
+  { id:"sofa-nube-cognac", nombre:"Sofá Manhattan 2", color:"Cognac", precio:1300, cat:"SALA", // Precio: S/ 3,690
+    foto:"img/sala-01.jpg", nuevo:true, vistas:8650, likes:618 },
+  { id:"sofa-nube-oliva", nombre:"Sofá Manhattan 2", color:"Oliva", precio:1300, cat:"SALA", // Precio: S/ 3,690
+    foto:"img/sala-08.jpg", nuevo:true, vistas:8400, likes:600 },
+  { id:"sofa-nube-camel", nombre:"Sofá Nube 2", color:"Camel", precio:1300, cat:"SALA", // Precio: S/ 3,690
+    foto:"img/sala-22.jpg", nuevo:true, vistas:8150, likes:582 },
+  { id:"sofa-nube-crema-cuero", nombre:"Sofá Nube 3", color:"Carnero Gris", precio:1800, cat:"SALA", // Precio: S/ 4,290
+    foto:"img/sala-12.jpg", nuevo:true, vistas:7900, likes:564 },
+  { id:"sofa-nube-marfil", nombre:"Sofá Manhattan 3", color:"Marfil", precio:1800, cat:"SALA", // Precio: S/ 3,690
+    foto:"img/sala-19.jpg", nuevo:true, vistas:7650, likes:546 },
+  { id:"sofa-nube-greige", nombre:"Sofá Manhattan 2", color:"Greige", precio:1300, cat:"SALA", // Precio: S/ 3,690
+    foto:"img/sala-15.jpg", nuevo:false, vistas:7400, likes:529 },
+  { id:"sofa-nube-arena", nombre:"Sofá Nube 3", color:"Arena", precio:1800, cat:"SALA", // Precio: S/ 3,690
+    foto:"img/sala-16.jpg", nuevo:false, vistas:7150, likes:511 },
+  { id:"sofa-nube-taupe", nombre:"Sofá Manhattan 3", color:"Taupe", precio:1800, cat:"SALA", // Precio: S/ 3,690
+    foto:"img/sala-10.jpg", nuevo:false, vistas:6900, likes:493 },
+  { id:"sofa-nube-chocolate", nombre:"Sofá Manhattan 3", color:"Chocolate", precio:1800, cat:"SALA", // Precio: S/ 3,690
+    foto:"img/sala-11.jpg", nuevo:false, vistas:6650, likes:475 },
+  { id:"sofa-nube-beige", nombre:"Sofá Manhattan 3", color:"Beige", precio:1800, cat:"SALA", // Precio: S/ 3,690
+    foto:"img/sala-18.jpg", nuevo:false, vistas:6400, likes:457 },
+  { id:"sofa-nube-perla", nombre:"Sofá Nube 2", color:"Perla", precio:1300, cat:"SALA", // Precio: S/ 3,690
+    foto:"img/sala-04.jpg", nuevo:false, vistas:6150, likes:439 },
+  { id:"sofa-nube-gris-claro", nombre:"Sofá Nube 3", color:"Gris Claro", precio:1800, cat:"SALA", // Precio: S/ 3,690
+    foto:"img/sala-06.jpg", nuevo:false, vistas:5900, likes:421 },
+  { id:"sofa-nube-niebla", nombre:"Sofá Nube 3", color:"Niebla", precio:1800, cat:"SALA", // Precio: S/ 3,690
+    foto:"img/sala-09.jpg", nuevo:false, vistas:5650, likes:404 },
+  { id:"sofa-nube-plata", nombre:"Sofá Nube 3", color:"Plata", precio:1800, cat:"SALA", // Precio: S/ 3,690
+    foto:"img/sala-14.jpg", nuevo:false, vistas:5400, likes:386 },
+  { id:"sofa-nube-marfil-cuero", nombre:"Sofá Nube 2", color:"Marfil Cuero", precio:1300, cat:"SALA", // Precio: S/ 4,290
+    foto:"img/sala-23.jpg", nuevo:false, vistas:5150, likes:368 },
+  { id:"sofa-nube-hueso-cuero", nombre:"Sofá Nube 2", color:"Hueso Cuero", precio:1300, cat:"SALA", // Precio: S/ 4,290
+    foto:"img/sala-20.jpg", nuevo:false, vistas:4900, likes:350 },
+  { id:"sofa-nube-caramelo", nombre:"Sofá Manhattan 3", color:"Caramelo", precio:1800, cat:"SALA", // Precio: S/ 3,690
+    foto:"img/sala-02.jpg", nuevo:false, vistas:4650, likes:332 },
+  { id:"sofa-nube-crema", nombre:"Sofá Nube 2", color:"Crema", precio:1300, cat:"SALA", // Precio: S/ 3,690
+    foto:"img/sala-07.jpg", nuevo:false, vistas:4400, likes:314 },
+  { id:"modulo-nube-chaise", nombre:"Módulo Nube · Chaise", color:"Marfil", precio:1300, cat:"SALA", // Precio: S/ 4,690
+    foto:"img/sala-03.jpg", nuevo:true, vistas:4150, likes:296 },
+  { id:"modulo-nube-brazo", nombre:"Módulo Nube · Brazo", color:"Marfil", precio:1300, cat:"SALA", // Precio: S/ 4,690
+    foto:"img/sala-05.jpg", nuevo:false, vistas:3900, likes:279 },
+  { id:"chaise-nube-arena", nombre:"Frejol 3", color:"Arena", precio:1700, cat:"SALA", // Precio: S/ 1,890
+    foto:"img/sala-13.jpg", nuevo:false, vistas:3650, likes:261 },
+  { id:"chaise-nube-crema", nombre:"Caise Frejol ", color:"Crema", precio:1000, cat:"SALA", // Precio: S/ 1,890
+    foto:"img/sala-21.jpg", nuevo:false, vistas:3400, likes:243 },
+  { id:"chaise-nube-gris", nombre:"Caise Frejol", color:"Gris", precio:1000, cat:"SALA", // Precio: S/ 1,890
+    foto:"img/sala-25.jpg", nuevo:false, vistas:3150, likes:225 },
+  { id:"sofa-nube-2-crema", nombre:"Sofá Nube 3", color:"Crema", precio:1300, cat:"SALA", // Precio: S/ 2,890
+    foto:"img/sala-24.jpg", nuevo:false, vistas:2900, likes:207 },
+  { id:"butaca-nube-marfil", nombre:"Butaca Nube", color:"Marfil", precio:800, cat:"BUTACA", // Precio: S/ 1,290
+    foto:"img/butaca-01.jpg", nuevo:true, vistas:7200, likes:512 },
+  { id:"butaca-nube-oliva", nombre:"Butaca Nube", color:"Oliva", precio:800, cat:"BUTACA", // Precio: S/ 1,390
+    foto:"img/butaca-02.jpg", nuevo:true, vistas:6950, likes:488 },
+  { id:"butaca-nube-perla", nombre:"Butaca Nube", color:"Perla", precio:800, cat:"BUTACA", // Precio: S/ 1,290
+    foto:"img/butaca-03.jpg", nuevo:false, vistas:6700, likes:472 },
+  { id:"butaca-nube-camel", nombre:"Butaca Nube", color:"Camel", precio:800, cat:"BUTACA", // Precio: S/ 1,390
+    foto:"img/butaca-04.jpg", nuevo:true, vistas:6450, likes:455 },
+  { id:"butaca-nube-crema", nombre:"Butaca Nube", color:"Crema", precio:800, cat:"BUTACA", // Precio: S/ 1,290
+    foto:"img/butaca-05.jpg", nuevo:false, vistas:6200, likes:441 },
+  { id:"butaca-nube-taupe", nombre:"Butaca Nube", color:"Taupe", precio:800, cat:"BUTACA", // Precio: S/ 1,390
+    foto:"img/butaca-06.jpg", nuevo:false, vistas:5950, likes:420 },
+  { id:"butaca-nube-avena", nombre:"Butaca Nube", color:"Avena", precio:800, cat:"BUTACA", // Precio: S/ 1,290
+    foto:"img/butaca-07.jpg", nuevo:false, vistas:5700, likes:402 },
+  { id:"butaca-nube-marfil-boucle", nombre:"Butaca Nube", color:"Marfil Bouclé", precio:800, cat:"BUTACA", // Precio: S/ 1,290
+    foto:"img/butaca-08.jpg", nuevo:false, vistas:5450, likes:386 },
+  { id:"butaca-nube-salvia-gris", nombre:"Butaca Nube", color:"Salvia Gris", precio:800, cat:"BUTACA", // Precio: S/ 1,390
+    foto:"img/butaca-09.jpg", nuevo:false, vistas:5200, likes:371 },
+  { id:"butaca-nube-hueso", nombre:"Butaca Nube", color:"Hueso", precio:800, cat:"BUTACA", // Precio: S/ 1,290
+    foto:"img/butaca-10.jpg", nuevo:false, vistas:4950, likes:352 },
+  { id:"butaca-nube-negro", nombre:"Butaca Nube", color:"Negro", precio:800, cat:"BUTACA", // Precio: S/ 1,390
+    foto:"img/butaca-11.jpg", nuevo:true, vistas:4700, likes:336 },
+  { id:"butaca-nube-caramelo", nombre:"Butaca Nube", color:"Caramelo", precio:800, cat:"BUTACA", // Precio: S/ 1,390
+    foto:"img/butaca-12.jpg", nuevo:false, vistas:4450, likes:318 },
+  { id:"butaca-nube-marfil-seda", nombre:"Butaca Nube", color:"Marfil Seda", precio:800, cat:"BUTACA", // Precio: S/ 1,290
+    foto:"img/butaca-13.jpg", nuevo:false, vistas:4200, likes:305 },
+  { id:"butaca-nube-salvia-claro", nombre:"Butaca Nube", color:"Salvia Claro", precio:800, cat:"BUTACA", // Precio: S/ 1,390
+    foto:"img/butaca-14.jpg", nuevo:false, vistas:3950, likes:288 },
+  { id:"butaca-nube-greige", nombre:"Butaca Nube", color:"Greige", precio:800, cat:"BUTACA", // Precio: S/ 1,390
+    foto:"img/butaca-15.jpg", nuevo:false, vistas:3700, likes:271 },
+  { id:"butaca-nube-blanco-roto", nombre:"Butaca Nube", color:"Blanco Roto", precio:800, cat:"BUTACA", // Precio: S/ 1,290
+    foto:"img/butaca-16.jpg", nuevo:false, vistas:3450, likes:254 },
+  { id:"cojin-floral-amarillo", nombre:"Cojín Floral", color:"Amarillo", precio:65, cat:"COJINES", // Precio: S/ 65
+    foto:"img/cojin-03.jpg", nuevo:true, vistas:2450, likes:140 },
+  { id:"cojin-taupe", nombre:"Cojín Terciopelo", color:"Taupe", precio:50, cat:"COJINES", // Precio: S/ 50
+    foto:"img/cojin-01.jpg", nuevo:true, vistas:2310, likes:132 },
+  { id:"cojin-terciopelo-verde", nombre:"Cojín Terciopelo", color:"Verde Bosque", precio:50, cat:"COJINES", // Precio: S/ 50
+    foto:"img/cojin-02.jpg", nuevo:true, vistas:2180, likes:125 },
+  { id:"cojin-rayas", nombre:"Cojín Rayas", color:"Blanco y Negro", precio:70, cat:"COJINES", // Precio: S/ 70
+    foto:"img/cojin-04.jpg", nuevo:true, vistas:1980, likes:112 },
+  { id:"cojin-geometrico", nombre:"Cojín Geométrico", color:"Arena y Marrón", precio:75, cat:"COJINES", // Precio: S/ 75
+    foto:"img/cojin-06.jpg", nuevo:true, vistas:1870, likes:108 },
+  { id:"cojin-estrella", nombre:"Cojín Estrella", color:"Café", precio:85, cat:"COJINES", // Precio: S/ 85
+    foto:"img/cojin-12.jpg", nuevo:true, vistas:1760, likes:99 },
+  { id:"cojin-floral-azul", nombre:"Cojín Floral", color:"Azul", precio:65, cat:"COJINES", // Precio: S/ 65
+    foto:"img/cojin-09.jpg", nuevo:true, vistas:1690, likes:96 },
+  { id:"cojin-bicolor-bn", nombre:"Cojín Bicolor", color:"Blanco y Negro", precio:60, cat:"COJINES", // Precio: S/ 60
+    foto:"img/cojin-05.jpg", nuevo:true, vistas:1580, likes:90 },
+  { id:"cojin-bicolor-cafe", nombre:"Cojín Bicolor", color:"Crema y Café", precio:60, cat:"COJINES", // Precio: S/ 60
+    foto:"img/cojin-07.jpg", nuevo:true, vistas:1470, likes:84 },
+  { id:"cojin-lino-arena", nombre:"Cojín Lino", color:"Arena", precio:50, cat:"COJINES", // Precio: S/ 50
+    foto:"img/cojin-08.jpg", nuevo:true, vistas:1360, likes:78 },
+  { id:"cojin-diamante", nombre:"Cojín Diamante", color:"Arena", precio:50, cat:"COJINES", // Precio: S/ 50
+    foto:"img/cojin-10.jpg", nuevo:true, vistas:1290, likes:72 },
+  { id:"cojin-redondo-verde", nombre:"Cojín Redondo", color:"Verde Olivo", precio:50, cat:"COJINES", // Precio: S/ 50
+    foto:"img/cojin-11.jpg", nuevo:true, vistas:1180, likes:66 }
+];
+
+/* ============================================================
+   MEDIA: fotografía real del producto
+   ============================================================ */
+function productMedia(p, opts){
+  const fit = p.cat === "SALA" ? "contain" : "cover";
+  return `<img src="${p.foto}" alt="${p.nombre} ${p.color}" loading="lazy" decoding="async"
+    style="width:100%;height:100%;object-fit:${fit};display:block;${(opts && opts.style) || ""}">`;
+}
+
+/* ============================================================
+   RENDER
+   ============================================================ */
+const catsEl   = document.getElementById("cats");
+const gridEl   = document.getElementById("grid");
+const titleEl  = document.getElementById("catalogTitle");
+
+/* categorías con separadores */
+catsEl.innerHTML = CATEGORIAS.map((c, i) =>
+  `<li>${i ? '<span class="dot">●</span>' : ""}<button class="cat-btn" data-cat="${c}">${c}</button></li>`
+).join("");
+
+/* precio con separador de miles */
+const fmt = n => "S/ " + n.toLocaleString("es-PE");
+const nf = n => n >= 1000 ? (n / 1000).toFixed(1).replace(".", ",") + "k" : String(n);
+
+/* ============================================================
+   ESTADO LOCAL (sin cuentas): vistas y me gusta en el navegador
+   ============================================================ */
+const STORE_KEY = "oscco-sala-2026";
+let store = { likes:{}, vistas:{} };
+try {
+  const raw = localStorage.getItem(STORE_KEY);
+  if (raw) store = Object.assign(store, JSON.parse(raw));
+} catch(e){}
+store.likes = store.likes || {};
+store.vistas = store.vistas || {};
+function saveStore(){
+  try { localStorage.setItem(STORE_KEY, JSON.stringify(store)); } catch(e){}
+}
+const vistasDe = p => p.vistas + (store.vistas[p.id] || 0);
+const likesDe  = p => p.likes  + (store.likes[p.id]  ? 1 : 0);
+const meGusta  = p => !!store.likes[p.id];
+
+/* ============================================================
+   RENDER
+   ============================================================ */
+let activeCat = null;
+let orden = "vistas";       // "vistas" | "likes" | "precio-asc" | "precio-desc"
+let precioFiltro = "todos"; // "todos" | "bajo" | "medio" | "alto"
+let onlyLiked = false;
+let busqueda = "";
+
+const cumplePrecio = p =>
+  precioFiltro === "todos" ? true :
+  precioFiltro === "bajo"  ? p.precio < 2000 :
+  precioFiltro === "medio" ? p.precio >= 2000 && p.precio <= 3500 :
+  p.precio > 3500;
+
+function listaActual(){
+  const q = busqueda.trim().toLowerCase();
+  const lista = PRODUCTOS
+    .filter(p => !activeCat || p.cat === activeCat)
+    .filter(p => !onlyLiked || meGusta(p))
+    .filter(cumplePrecio)
+    .filter(p => !q || (p.nombre + " " + p.color + " " + p.cat).toLowerCase().includes(q));
+  if (orden === "precio-asc")  return lista.sort((a, b) => a.precio - b.precio);
+  if (orden === "precio-desc") return lista.sort((a, b) => b.precio - a.precio);
+  return lista.sort((a, b) => orden === "likes" ? likesDe(b) - likesDe(a) : vistasDe(b) - vistasDe(a));
+}
+
+function render(){
+  const lista = listaActual();
+
+  titleEl.textContent = onlyLiked ? "Tus me gusta"
+    : busqueda ? "Resultados"
+    : activeCat ? activeCat
+    : orden === "likes" ? "Más gustados"
+    : orden === "precio-asc" ? "Menor precio"
+    : orden === "precio-desc" ? "Mayor precio"
+    : "Más vistos";
+
+  if (!lista.length){
+    const msg = onlyLiked
+      ? "Todavía no marcaste ningún me gusta. Toca el corazón de una pieza para guardarla aquí."
+      : "No encontramos piezas con esa búsqueda. Escríbenos y te mostramos las disponibles.";
+    gridEl.innerHTML = `
+      <div class="empty">
+        <h3>${onlyLiked ? "Sin me gusta todavía" : "Sin resultados"}</h3>
+        <p class="empty-hint">${msg}</p>
+        <a class="btn-dark" href="${waLink("¡Hola " + NOMBRE_VENDEDOR + "! Quisiera ver las piezas disponibles de sala de la colección " + ANIO + ". ¿Me ayudan por este chat?")}" target="_blank" rel="noopener noreferrer">Pedir por WhatsApp</a>
+      </div>`;
+    return;
+  }
+
+  gridEl.innerHTML = lista.map(p => {
+    const liked = meGusta(p);
+    const msg = "¡Hola " + NOMBRE_VENDEDOR + "! Me interesa " + p.nombre + " " + p.color + " (" + fmt(p.precio) + ") del catálogo " + ANIO + ". Quiero hacer un pedido por este chat.";
+    return `
+      <article class="card card--${p.cat.toLowerCase()}" data-id="${p.id}">
+        <div class="card-media" data-ver="${p.id}">
+          ${p.nuevo ? `<span class="card-badge">Nuevo ${ANIO}</span>` : ""}
+          <button class="card-like${liked ? " is-liked" : ""}" data-like="${p.id}"
+            aria-pressed="${liked}" aria-label="Me gusta ${p.nombre} ${p.color}">
+            <svg viewBox="0 0 24 24" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7.4-4.6-9-9.1C2 7.6 4.1 4.8 7.1 4.8c1.9 0 3.4 1 4.9 2.8 1.5-1.8 3-2.8 4.9-2.8 3 0 5.1 2.8 4.1 6.1-1.6 4.5-9 9.1-9 9.1Z"/></svg>
+            <span data-like-count>${likesDe(p)}</span>
+          </button>
+          ${productMedia(p)}
+          <a class="card-wa" href="${waLink(msg)}" target="_blank" rel="noopener noreferrer"
+            aria-label="Pedir ${p.nombre} ${p.color} por WhatsApp">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.6 2 2.2 6.4 2.2 11.84c0 1.74.46 3.44 1.32 4.94L2 22l5.36-1.4a9.86 9.86 0 0 0 4.68 1.19h.01c5.43 0 9.84-4.4 9.84-9.84C21.89 6.4 17.48 2 12.04 2Zm5.75 13.9c-.24.68-1.42 1.3-1.96 1.35-.54.05-1.05.24-2.94-.6-2.29-1.02-3.74-3.44-3.85-3.6-.11-.16-.92-1.23-.92-2.35 0-1.12.58-1.67.79-1.9.2-.23.44-.29.59-.29h.42c.14 0 .32-.05.5.38.19.45.65 1.58.71 1.7.06.11.1.25.02.4-.08.16-.12.26-.24.4-.12.14-.25.3-.36.42-.12.12-.24.25-.1.49.13.23.6.99 1.29 1.6.88.79 1.62 1.03 1.85 1.15.23.12.37.1.5-.06.14-.16.6-.7.76-.94.16-.24.32-.2.54-.12.22.08 1.4.66 1.64.78.24.12.4.18.46.28.06.1.06.58-.18 1.26Z"/></svg>
+            Pedir por WhatsApp
+          </a>
+        </div>
+        <div class="card-body">
+          <h3 class="card-name">${p.nombre}</h3>
+          <p class="card-color">${p.color}</p>
+          <p class="card-price">${fmt(p.precio)}</p>
+          ${(p.cat === "SALA" || p.cat === "BUTACA") ? '<p class="card-ship">Envío gratis a todo Lima Metropolitana</p>' : ""}
+          <p class="card-stats">
+            <span title="Vistas">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M2.5 12S6 5.8 12 5.8 21.5 12 21.5 12 18 18.2 12 18.2 2.5 12 2.5 12Z"/><circle cx="12" cy="12" r="2.7"/></svg>
+              <span data-views>${nf(vistasDe(p))}</span> vistas
+            </span>
+            <span title="Me gusta">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7.4-4.6-9-9.1C2 7.6 4.1 4.8 7.1 4.8c1.9 0 3.4 1 4.9 2.8 1.5-1.8 3-2.8 4.9-2.8 3 0 5.1 2.8 4.1 6.1-1.6 4.5-9 9.1-9 9.1Z"/></svg>
+              <span data-likes>${nf(likesDe(p))}</span> me gusta
+            </span>
+          </p>
+        </div>
+      </article>`;
+  }).join("");
+}
+
+/* categorías con separadores */
+catsEl.innerHTML = CATEGORIAS.map((c, i) =>
+  `<li>${i ? '<span class="dot">●</span>' : ""}<button class="cat-btn" data-cat="${c}">${c}</button></li>`
+).join("");
+
+/* ============================================================
+   INTERACCIÓN
+   ============================================================ */
+function pintarContadores(id){
+  const card = gridEl.querySelector(`[data-id="${id}"]`);
+  const p = PRODUCTOS.find(x => x.id === id);
+  if (!card || !p) return;
+  const lc = card.querySelector("[data-like-count]");
+  const lk = card.querySelector("[data-likes]");
+  const vw = card.querySelector("[data-views]");
+  const btn = card.querySelector("[data-like]");
+  if (lc) lc.textContent = likesDe(p);
+  if (lk) lk.textContent = nf(likesDe(p));
+  if (vw) vw.textContent = nf(vistasDe(p));
+  if (btn){
+    btn.classList.toggle("is-liked", meGusta(p));
+    btn.setAttribute("aria-pressed", String(meGusta(p)));
+  }
+}
+
+gridEl.addEventListener("click", e => {
+  const likeBtn = e.target.closest("[data-like]");
+  if (likeBtn){
+    const id = likeBtn.dataset.like;
+    store.likes[id] = store.likes[id] ? 0 : 1;
+    saveStore();
+    if (onlyLiked || orden === "likes") render();
+    else pintarContadores(id);
+    return;
+  }
+
+  const media = e.target.closest("[data-ver]");
+  if (media && !e.target.closest("a")){
+    const id = media.dataset.ver;
+    store.vistas[id] = (store.vistas[id] || 0) + 1;
+    saveStore();
+    pintarContadores(id);
+  }
+});
+
+/* orden: panel "Ordenar" */
+function marcarOrden(){
+  document.querySelectorAll("#panelOrdenar [data-sort]").forEach(x =>
+    x.classList.toggle("is-active", x.dataset.sort === orden)
+  );
+}
+document.querySelectorAll("#panelOrdenar [data-sort]").forEach(b => {
+  b.addEventListener("click", () => {
+    orden = b.dataset.sort;
+    onlyLiked = false;
+    const fav = document.getElementById("favBtn");
+    if (fav) fav.setAttribute("aria-pressed", "false");
+    marcarOrden();
+    cerrarPaneles();
+    render();
+  });
+});
+
+/* paneles Ordenar / Filtrar */
+const panelOrdenar = document.getElementById("panelOrdenar");
+const panelFiltrar = document.getElementById("panelFiltrar");
+const btnOrdenar = document.getElementById("btnOrdenar");
+const btnFiltrar = document.getElementById("btnFiltrar");
+
+function cerrarPaneles(){
+  [[panelOrdenar, btnOrdenar], [panelFiltrar, btnFiltrar]].forEach(([p, b]) => {
+    if (!p || !b) return;
+    p.hidden = true;
+    b.classList.remove("is-open");
+    b.setAttribute("aria-expanded", "false");
+  });
+  document.body.classList.remove("panel-open");
+}
+function abrirPanel(panel, btn){
+  const estabaAbierto = !panel.hidden;
+  cerrarPaneles();
+  if (estabaAbierto) return;
+  panel.hidden = false;
+  btn.classList.add("is-open");
+  btn.setAttribute("aria-expanded", "true");
+  document.body.classList.add("panel-open");
+}
+if (btnOrdenar) btnOrdenar.addEventListener("click", e => { e.stopPropagation(); abrirPanel(panelOrdenar, btnOrdenar); });
+if (btnFiltrar) btnFiltrar.addEventListener("click", e => { e.stopPropagation(); abrirPanel(panelFiltrar, btnFiltrar); });
+document.addEventListener("click", e => {
+  if (!e.target.closest(".subnav-left")) cerrarPaneles();
+});
+document.addEventListener("keydown", e => {
+  if (e.key === "Escape") cerrarPaneles();
+});
+
+/* filtros: categoría y precio */
+function marcarFiltros(){
+  document.querySelectorAll("[data-fcat]").forEach(b =>
+    b.classList.toggle("is-active", (b.dataset.fcat || null) === activeCat)
+  );
+  document.querySelectorAll("[data-fprecio]").forEach(b =>
+    b.classList.toggle("is-active", b.dataset.fprecio === precioFiltro)
+  );
+  document.querySelectorAll(".cat-btn").forEach(b =>
+    b.classList.toggle("active", b.dataset.cat === activeCat)
+  );
+}
+document.querySelectorAll("[data-fcat]").forEach(b => {
+  b.addEventListener("click", () => {
+    activeCat = b.dataset.fcat || null;
+    marcarFiltros();
+    cerrarPaneles();
+    render();
+  });
+});
+document.querySelectorAll("[data-fprecio]").forEach(b => {
+  b.addEventListener("click", () => {
+    precioFiltro = b.dataset.fprecio;
+    marcarFiltros();
+    cerrarPaneles();
+    render();
+  });
+});
+const limpiarFiltros = document.getElementById("limpiarFiltros");
+if (limpiarFiltros){
+  limpiarFiltros.addEventListener("click", () => {
+    activeCat = null;
+    precioFiltro = "todos";
+    busqueda = "";
+    if (searchInput) searchInput.value = "";
+    onlyLiked = false;
+    const fav = document.getElementById("favBtn");
+    if (fav) fav.setAttribute("aria-pressed", "false");
+    marcarFiltros();
+    cerrarPaneles();
+    render();
+  });
+}
+
+/* buscador */
+const searchInput = document.getElementById("q");
+if (searchInput){
+  searchInput.addEventListener("input", () => {
+    busqueda = searchInput.value;
+    render();
+  });
+}
+document.querySelectorAll("[data-search]").forEach(b =>
+  b.addEventListener("click", () => {
+    document.getElementById("catalogo").scrollIntoView({behavior:"smooth"});
+    if (searchInput) setTimeout(() => searchInput.focus(), 350);
+  })
+);
+
+/* filtros de categoría */
+function setFilter(cat){
+  activeCat = (activeCat === cat) ? null : cat;
+  marcarFiltros();
+  render();
+}
+catsEl.addEventListener("click", e => {
+  const b = e.target.closest(".cat-btn");
+  if (b) setFilter(b.dataset.cat);
+});
+document.querySelectorAll("[data-footer-cat]").forEach(a => {
+  a.addEventListener("click", () => {
+    activeCat = null;
+    setFilter(a.dataset.footerCat);
+    document.getElementById("catalogo").scrollIntoView({behavior:"smooth"});
+  });
+});
+
+/* "mis me gusta" desde el corazón del header */
+const favBtn = document.getElementById("favBtn");
+if (favBtn){
+  favBtn.addEventListener("click", () => {
+    onlyLiked = !onlyLiked;
+    favBtn.setAttribute("aria-pressed", String(onlyLiked));
+    render();
+    document.getElementById("catalogo").scrollIntoView({behavior:"smooth"});
+  });
+}
+
+/* WhatsApp: cada clic abre un chat NUEVO con el mensaje listo */
+const floatEl = document.getElementById("waFloat");
+floatEl.href = waLink(MSG_GENERAL);
+floatEl.target = "_blank";
+floatEl.rel = "noopener noreferrer";
+document.querySelector("[data-wa-general]").href = waLink(MSG_GENERAL);
+document.querySelector("[data-wa-general]").target = "_blank";
+document.querySelector("[data-wa-general]").rel = "noopener noreferrer";
+
+/* arranque */
+render();
+</script>
+</body>
+</html>
