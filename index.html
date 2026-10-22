@@ -2,7 +2,13 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0a0a0a">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="OSCCO">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="format-detection" content="telephone=no">
 <title>OSCCO — Catálogo · Sala</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230a0a0a'/%3E%3Ccircle cx='32' cy='32' r='16' fill='none' stroke='%23fff' stroke-width='7'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -419,6 +425,21 @@
     .catalog h2{letter-spacing:.06em;}
   }
   @media (max-width:640px){
+    .topbar{height:64px;padding:0 16px;}
+    .logo svg{height:30px;}
+    .hero{
+      min-height:clamp(470px, 122vw, 540px);
+      padding:26px 20px 30px;
+    }
+    .hero h1{font-size:clamp(34px, 9vw, 44px);}
+    .hero-sub{font-size:14px;max-width:310px;margin:12px 0 20px;}
+    .subnav{padding:8px 12px;}
+    .cats{gap:4px 14px;padding:2px 0 6px;flex-wrap:wrap;overflow:visible;scroll-behavior:auto;justify-content:center;}
+    .cats li{gap:0;}
+    .cats .dot{display:none;}
+    .cat-btn{font-size:13.5px;letter-spacing:.07em;padding:5px 0;}
+    .wa-float{bottom:calc(16px + env(safe-area-inset-bottom));}
+    .footer{padding-bottom:calc(26px + env(safe-area-inset-bottom));}
     .grid{grid-template-columns:repeat(2,1fr);gap:10px;padding:0 12px;}
     .card-body{padding:12px 6px 18px;}
     .card-name{font-size:10.5px;letter-spacing:.06em;}
@@ -612,87 +633,87 @@ const CATEGORIAS = ["SALA", "BUTACA", "COJINES", "MESA", "COMEDOR", "DORMITORIO"
    foto: ruta de la imagen real (carpeta img/).
    ============================================================ */
 const PRODUCTOS = [
-  { id:"sofa-nube-negro", nombre:"Sofá Manhattan 3", color:"Negro", precio:1800, cat:"SALA", // Precio: S/ 3,690
+  { id:"sofa-nube-negro", nombre:"Sofá Manhattan 3", color:"Negro", precio:1800, cat:"SALA", // Precio: S/ 1,800
     foto:"img/sala-17.jpg", nuevo:true, vistas:8900, likes:636 },
-  { id:"sofa-nube-cognac", nombre:"Sofá Manhattan 2", color:"Cognac", precio:1300, cat:"SALA", // Precio: S/ 3,690
+  { id:"sofa-nube-cognac", nombre:"Sofá Manhattan 2", color:"Cognac", precio:1300, cat:"SALA", // Precio: S/ 1,300
     foto:"img/sala-01.jpg", nuevo:true, vistas:8650, likes:618 },
-  { id:"sofa-nube-oliva", nombre:"Sofá Manhattan 2", color:"Oliva", precio:1300, cat:"SALA", // Precio: S/ 3,690
+  { id:"sofa-nube-oliva", nombre:"Sofá Manhattan 2", color:"Oliva", precio:1300, cat:"SALA", // Precio: S/ 1,300
     foto:"img/sala-08.jpg", nuevo:true, vistas:8400, likes:600 },
-  { id:"sofa-nube-camel", nombre:"Sofá Nube 2", color:"Camel", precio:1300, cat:"SALA", // Precio: S/ 3,690
+  { id:"sofa-nube-camel", nombre:"Sofá Nube 2", color:"Camel", precio:1300, cat:"SALA", // Precio: S/ 1,300
     foto:"img/sala-22.jpg", nuevo:true, vistas:8150, likes:582 },
-  { id:"sofa-nube-crema-cuero", nombre:"Sofá Nube 3", color:"Carnero Gris", precio:1800, cat:"SALA", // Precio: S/ 4,290
+  { id:"sofa-nube-crema-cuero", nombre:"Sofá Nube 3", color:"Carnero Gris", precio:1800, cat:"SALA", // Precio: S/ 1,800
     foto:"img/sala-12.jpg", nuevo:true, vistas:7900, likes:564 },
-  { id:"sofa-nube-marfil", nombre:"Sofá Manhattan 3", color:"Marfil", precio:1800, cat:"SALA", // Precio: S/ 3,690
+  { id:"sofa-nube-marfil", nombre:"Sofá Manhattan 3", color:"Marfil", precio:1800, cat:"SALA", // Precio: S/ 1,800
     foto:"img/sala-19.jpg", nuevo:true, vistas:7650, likes:546 },
-  { id:"sofa-nube-greige", nombre:"Sofá Manhattan 2", color:"Greige", precio:1300, cat:"SALA", // Precio: S/ 3,690
+  { id:"sofa-nube-greige", nombre:"Sofá Manhattan 2", color:"Greige", precio:1300, cat:"SALA", // Precio: S/ 1,300
     foto:"img/sala-15.jpg", nuevo:false, vistas:7400, likes:529 },
-  { id:"sofa-nube-arena", nombre:"Sofá Nube 3", color:"Arena", precio:1800, cat:"SALA", // Precio: S/ 3,690
+  { id:"sofa-nube-arena", nombre:"Sofá Nube 3", color:"Arena", precio:1800, cat:"SALA", // Precio: S/ 1,800
     foto:"img/sala-16.jpg", nuevo:false, vistas:7150, likes:511 },
-  { id:"sofa-nube-taupe", nombre:"Sofá Manhattan 3", color:"Taupe", precio:1800, cat:"SALA", // Precio: S/ 3,690
+  { id:"sofa-nube-taupe", nombre:"Sofá Manhattan 3", color:"Taupe", precio:1800, cat:"SALA", // Precio: S/ 1,800
     foto:"img/sala-10.jpg", nuevo:false, vistas:6900, likes:493 },
-  { id:"sofa-nube-chocolate", nombre:"Sofá Manhattan 3", color:"Chocolate", precio:1800, cat:"SALA", // Precio: S/ 3,690
+  { id:"sofa-nube-chocolate", nombre:"Sofá Manhattan 3", color:"Chocolate", precio:1800, cat:"SALA", // Precio: S/ 1,800
     foto:"img/sala-11.jpg", nuevo:false, vistas:6650, likes:475 },
-  { id:"sofa-nube-beige", nombre:"Sofá Manhattan 3", color:"Beige", precio:1800, cat:"SALA", // Precio: S/ 3,690
+  { id:"sofa-nube-beige", nombre:"Sofá Manhattan 3", color:"Beige", precio:1800, cat:"SALA", // Precio: S/ 1,800
     foto:"img/sala-18.jpg", nuevo:false, vistas:6400, likes:457 },
-  { id:"sofa-nube-perla", nombre:"Sofá Nube 2", color:"Perla", precio:1300, cat:"SALA", // Precio: S/ 3,690
+  { id:"sofa-nube-perla", nombre:"Sofá Nube 2", color:"Perla", precio:1300, cat:"SALA", // Precio: S/ 1,300
     foto:"img/sala-04.jpg", nuevo:false, vistas:6150, likes:439 },
-  { id:"sofa-nube-gris-claro", nombre:"Sofá Nube 3", color:"Gris Claro", precio:1800, cat:"SALA", // Precio: S/ 3,690
+  { id:"sofa-nube-gris-claro", nombre:"Sofá Nube 3", color:"Gris Claro", precio:1800, cat:"SALA", // Precio: S/ 1,800
     foto:"img/sala-06.jpg", nuevo:false, vistas:5900, likes:421 },
-  { id:"sofa-nube-niebla", nombre:"Sofá Nube 3", color:"Niebla", precio:1800, cat:"SALA", // Precio: S/ 3,690
+  { id:"sofa-nube-niebla", nombre:"Sofá Nube 3", color:"Niebla", precio:1800, cat:"SALA", // Precio: S/ 1,800
     foto:"img/sala-09.jpg", nuevo:false, vistas:5650, likes:404 },
-  { id:"sofa-nube-plata", nombre:"Sofá Nube 3", color:"Plata", precio:1800, cat:"SALA", // Precio: S/ 3,690
+  { id:"sofa-nube-plata", nombre:"Sofá Nube 3", color:"Plata", precio:1800, cat:"SALA", // Precio: S/ 1,800
     foto:"img/sala-14.jpg", nuevo:false, vistas:5400, likes:386 },
-  { id:"sofa-nube-marfil-cuero", nombre:"Sofá Nube 2", color:"Marfil Cuero", precio:1300, cat:"SALA", // Precio: S/ 4,290
+  { id:"sofa-nube-marfil-cuero", nombre:"Sofá Nube 2", color:"Marfil Cuero", precio:1300, cat:"SALA", // Precio: S/ 1,300
     foto:"img/sala-23.jpg", nuevo:false, vistas:5150, likes:368 },
-  { id:"sofa-nube-hueso-cuero", nombre:"Sofá Nube 2", color:"Hueso Cuero", precio:1300, cat:"SALA", // Precio: S/ 4,290
+  { id:"sofa-nube-hueso-cuero", nombre:"Sofá Nube 2", color:"Hueso Cuero", precio:1300, cat:"SALA", // Precio: S/ 1,300
     foto:"img/sala-20.jpg", nuevo:false, vistas:4900, likes:350 },
-  { id:"sofa-nube-caramelo", nombre:"Sofá Manhattan 3", color:"Caramelo", precio:1800, cat:"SALA", // Precio: S/ 3,690
+  { id:"sofa-nube-caramelo", nombre:"Sofá Manhattan 3", color:"Caramelo", precio:1800, cat:"SALA", // Precio: S/ 1,800
     foto:"img/sala-02.jpg", nuevo:false, vistas:4650, likes:332 },
-  { id:"sofa-nube-crema", nombre:"Sofá Nube 2", color:"Crema", precio:1300, cat:"SALA", // Precio: S/ 3,690
+  { id:"sofa-nube-crema", nombre:"Sofá Nube 2", color:"Crema", precio:1300, cat:"SALA", // Precio: S/ 1,300
     foto:"img/sala-07.jpg", nuevo:false, vistas:4400, likes:314 },
-  { id:"modulo-nube-chaise", nombre:"Módulo Nube · Chaise", color:"Marfil", precio:1300, cat:"SALA", // Precio: S/ 4,690
+  { id:"modulo-nube-chaise", nombre:"Módulo Nube · Chaise", color:"Marfil", precio:1300, cat:"SALA", // Precio: S/ 1,300
     foto:"img/sala-03.jpg", nuevo:true, vistas:4150, likes:296 },
-  { id:"modulo-nube-brazo", nombre:"Módulo Nube · Brazo", color:"Marfil", precio:1300, cat:"SALA", // Precio: S/ 4,690
+  { id:"modulo-nube-brazo", nombre:"Módulo Nube · Brazo", color:"Marfil", precio:1300, cat:"SALA", // Precio: S/ 1,300
     foto:"img/sala-05.jpg", nuevo:false, vistas:3900, likes:279 },
-  { id:"chaise-nube-arena", nombre:"Frejol 3", color:"Arena", precio:1700, cat:"SALA", // Precio: S/ 1,890
+  { id:"chaise-nube-arena", nombre:"Frejol 3", color:"Arena", precio:1700, cat:"SALA", // Precio: S/ 1,700
     foto:"img/sala-13.jpg", nuevo:false, vistas:3650, likes:261 },
-  { id:"chaise-nube-crema", nombre:"Caise Frejol ", color:"Crema", precio:1000, cat:"SALA", // Precio: S/ 1,890
+  { id:"chaise-nube-crema", nombre:"Caise Frejol ", color:"Crema", precio:1000, cat:"SALA", // Precio: S/ 1,000
     foto:"img/sala-21.jpg", nuevo:false, vistas:3400, likes:243 },
-  { id:"chaise-nube-gris", nombre:"Caise Frejol", color:"Gris", precio:1000, cat:"SALA", // Precio: S/ 1,890
+  { id:"chaise-nube-gris", nombre:"Caise Frejol", color:"Gris", precio:1000, cat:"SALA", // Precio: S/ 1,000
     foto:"img/sala-25.jpg", nuevo:false, vistas:3150, likes:225 },
-  { id:"sofa-nube-2-crema", nombre:"Sofá Nube 3", color:"Crema", precio:1300, cat:"SALA", // Precio: S/ 2,890
+  { id:"sofa-nube-2-crema", nombre:"Sofá Nube 3", color:"Crema", precio:1300, cat:"SALA", // Precio: S/ 1,300
     foto:"img/sala-24.jpg", nuevo:false, vistas:2900, likes:207 },
-  { id:"butaca-nube-marfil", nombre:"Butaca Nube", color:"Marfil", precio:800, cat:"BUTACA", // Precio: S/ 1,290
+  { id:"butaca-nube-marfil", nombre:"Butaca Nube", color:"Marfil", precio:800, cat:"BUTACA", // Precio: S/ 800
     foto:"img/butaca-01.jpg", nuevo:true, vistas:7200, likes:512 },
-  { id:"butaca-nube-oliva", nombre:"Butaca Nube", color:"Oliva", precio:800, cat:"BUTACA", // Precio: S/ 1,390
+  { id:"butaca-nube-oliva", nombre:"Butaca Nube", color:"Oliva", precio:800, cat:"BUTACA", // Precio: S/ 800
     foto:"img/butaca-02.jpg", nuevo:true, vistas:6950, likes:488 },
-  { id:"butaca-nube-perla", nombre:"Butaca Nube", color:"Perla", precio:800, cat:"BUTACA", // Precio: S/ 1,290
+  { id:"butaca-nube-perla", nombre:"Butaca Nube", color:"Perla", precio:800, cat:"BUTACA", // Precio: S/ 800
     foto:"img/butaca-03.jpg", nuevo:false, vistas:6700, likes:472 },
-  { id:"butaca-nube-camel", nombre:"Butaca Nube", color:"Camel", precio:800, cat:"BUTACA", // Precio: S/ 1,390
+  { id:"butaca-nube-camel", nombre:"Butaca Nube", color:"Camel", precio:800, cat:"BUTACA", // Precio: S/ 800
     foto:"img/butaca-04.jpg", nuevo:true, vistas:6450, likes:455 },
-  { id:"butaca-nube-crema", nombre:"Butaca Nube", color:"Crema", precio:800, cat:"BUTACA", // Precio: S/ 1,290
+  { id:"butaca-nube-crema", nombre:"Butaca Nube", color:"Crema", precio:800, cat:"BUTACA", // Precio: S/ 800
     foto:"img/butaca-05.jpg", nuevo:false, vistas:6200, likes:441 },
-  { id:"butaca-nube-taupe", nombre:"Butaca Nube", color:"Taupe", precio:800, cat:"BUTACA", // Precio: S/ 1,390
+  { id:"butaca-nube-taupe", nombre:"Butaca Nube", color:"Taupe", precio:800, cat:"BUTACA", // Precio: S/ 800
     foto:"img/butaca-06.jpg", nuevo:false, vistas:5950, likes:420 },
-  { id:"butaca-nube-avena", nombre:"Butaca Nube", color:"Avena", precio:800, cat:"BUTACA", // Precio: S/ 1,290
+  { id:"butaca-nube-avena", nombre:"Butaca Nube", color:"Avena", precio:800, cat:"BUTACA", // Precio: S/ 800
     foto:"img/butaca-07.jpg", nuevo:false, vistas:5700, likes:402 },
-  { id:"butaca-nube-marfil-boucle", nombre:"Butaca Nube", color:"Marfil Bouclé", precio:800, cat:"BUTACA", // Precio: S/ 1,290
+  { id:"butaca-nube-marfil-boucle", nombre:"Butaca Nube", color:"Marfil Bouclé", precio:800, cat:"BUTACA", // Precio: S/ 800
     foto:"img/butaca-08.jpg", nuevo:false, vistas:5450, likes:386 },
-  { id:"butaca-nube-salvia-gris", nombre:"Butaca Nube", color:"Salvia Gris", precio:800, cat:"BUTACA", // Precio: S/ 1,390
+  { id:"butaca-nube-salvia-gris", nombre:"Butaca Nube", color:"Salvia Gris", precio:800, cat:"BUTACA", // Precio: S/ 800
     foto:"img/butaca-09.jpg", nuevo:false, vistas:5200, likes:371 },
-  { id:"butaca-nube-hueso", nombre:"Butaca Nube", color:"Hueso", precio:800, cat:"BUTACA", // Precio: S/ 1,290
+  { id:"butaca-nube-hueso", nombre:"Butaca Nube", color:"Hueso", precio:800, cat:"BUTACA", // Precio: S/ 800
     foto:"img/butaca-10.jpg", nuevo:false, vistas:4950, likes:352 },
-  { id:"butaca-nube-negro", nombre:"Butaca Nube", color:"Negro", precio:800, cat:"BUTACA", // Precio: S/ 1,390
+  { id:"butaca-nube-negro", nombre:"Butaca Nube", color:"Negro", precio:800, cat:"BUTACA", // Precio: S/ 800
     foto:"img/butaca-11.jpg", nuevo:true, vistas:4700, likes:336 },
-  { id:"butaca-nube-caramelo", nombre:"Butaca Nube", color:"Caramelo", precio:800, cat:"BUTACA", // Precio: S/ 1,390
+  { id:"butaca-nube-caramelo", nombre:"Butaca Nube", color:"Caramelo", precio:800, cat:"BUTACA", // Precio: S/ 800
     foto:"img/butaca-12.jpg", nuevo:false, vistas:4450, likes:318 },
-  { id:"butaca-nube-marfil-seda", nombre:"Butaca Nube", color:"Marfil Seda", precio:800, cat:"BUTACA", // Precio: S/ 1,290
+  { id:"butaca-nube-marfil-seda", nombre:"Butaca Nube", color:"Marfil Seda", precio:800, cat:"BUTACA", // Precio: S/ 800
     foto:"img/butaca-13.jpg", nuevo:false, vistas:4200, likes:305 },
-  { id:"butaca-nube-salvia-claro", nombre:"Butaca Nube", color:"Salvia Claro", precio:800, cat:"BUTACA", // Precio: S/ 1,390
+  { id:"butaca-nube-salvia-claro", nombre:"Butaca Nube", color:"Salvia Claro", precio:800, cat:"BUTACA", // Precio: S/ 800
     foto:"img/butaca-14.jpg", nuevo:false, vistas:3950, likes:288 },
-  { id:"butaca-nube-greige", nombre:"Butaca Nube", color:"Greige", precio:800, cat:"BUTACA", // Precio: S/ 1,390
+  { id:"butaca-nube-greige", nombre:"Butaca Nube", color:"Greige", precio:800, cat:"BUTACA", // Precio: S/ 800
     foto:"img/butaca-15.jpg", nuevo:false, vistas:3700, likes:271 },
-  { id:"butaca-nube-blanco-roto", nombre:"Butaca Nube", color:"Blanco Roto", precio:800, cat:"BUTACA", // Precio: S/ 1,290
+  { id:"butaca-nube-blanco-roto", nombre:"Butaca Nube", color:"Blanco Roto", precio:800, cat:"BUTACA", // Precio: S/ 800
     foto:"img/butaca-16.jpg", nuevo:false, vistas:3450, likes:254 },
   { id:"cojin-floral-amarillo", nombre:"Cojín Floral", color:"Amarillo", precio:65, cat:"COJINES", // Precio: S/ 65
     foto:"img/cojin-03.jpg", nuevo:true, vistas:2450, likes:140 },
